@@ -1,3 +1,5 @@
+set -e
+
 # netcdf
 cd /deps/Build_WRF/LIBRARIES/netcdf-4.1.3
 ./configure --prefix=$TARGET_DIR --disable-dap --disable-netcdf-4 --disable-shared
@@ -39,20 +41,21 @@ gfortran 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o -L$TARGET_DIR/lib -lnet
 mpif90 -c 02_fortran+c+netcdf+mpi_f.f
 mpicc -c 02_fortran+c+netcdf+mpi_c.c
 mpif90 02_fortran+c+netcdf+mpi_f.o 02_fortran+c+netcdf+mpi_c.o  -L$TARGET_DIR/lib -lnetcdff -lnetcdf
-mpi./a.out
+mpirun ./a.out
 
+alias ftn='gfortran'
+
+ln -fs /output/libs/include/* /usr/include/
 
 # compile WRF
 cd /deps/Build_WRF/WRF
-
-RUN echo 34 | ./configure --prefix=$TARGET_DIR
-RUN ./compile em_real
-RUN cp -r . /compiled_deps/WRF
+echo 34 | ./configure
+./compile em_real
+cp -r . /output/WRF
 
 # compile WPS
-
 cd /deps/Build_WRF/WPS
 ./clean
-echo 3 | ./configure --prefix=$TARGET_DIR
+echo 3 | ./configure
 ./compile
-cp -r . /compiled_deps/WPS-4.1
+cp -r . /output/WPS-4.1

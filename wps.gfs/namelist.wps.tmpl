@@ -1,9 +1,8 @@
 &share
  wrf_core                      = 'ARW',
  max_dom                       = 1,
- start_date                    = '2018-08-07_18:00:00','2018-08-07_18:00:00','2018-08-07_18:00:00',
- end_date                      = '2018-08-10_00:00:00','2018-08-10_00:00:00','2018-08-10_00:00:00',
- interval_seconds              = 3600,
+ start_date                    = '{{.Start.Iso}}','{{.Start.Iso}}','{{.Start.Iso}}',
+ end_date                      = '{{.End.Iso}}','{{.End.Iso}}','{{.End.Iso}}', interval_seconds              = 3600,
  io_form_geogrid               = 2,
  opt_output_from_geogrid_path  = '/wrfbase/wpswd/geogrid',
  debug_level = 0,

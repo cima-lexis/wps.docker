@@ -4,7 +4,7 @@ RUN mkdir -p /deps/TESTS
 
 # install dev pkg
 RUN apt update
-RUN apt install -y gcc gfortran musl-dev tcsh perl make g++ file m4 wget
+RUN apt install -y gcc gfortran tcsh perl make g++ file m4 wget vim less libg2-dev
 
 # test dev env
 WORKDIR /deps/TESTS
@@ -32,7 +32,7 @@ WORKDIR /deps/TESTS
 RUN wget -q https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
 RUN tar -xf Fortran_C_NETCDF_MPI_tests.tar
 
-ENV NETCDF=/compiled_deps/deps
+ENV NETCDF=/output/libs
 RUN mkdir -p /deps/Build_WRF/WRF
 RUN mkdir -p /deps/Build_WRF/WPS
 
@@ -52,10 +52,14 @@ ENV FC=gfortran
 ENV FCFLAGS=-m64
 ENV F77=gfortran
 ENV FFLAGS=-m64
-ENV TARGET_DIR=/compiled_deps/deps
+ENV TARGET_DIR=/output/libs
 ENV LDFLAGS=-L$TARGET_DIR/lib
 ENV CPPFLAGS=-I$TARGET_DIR/include
 ENV CFLAGS=-I$TARGET_DIR/include
 ENV PATH=$TARGET_DIR/bin:$PATH
-
+ENV DEV_TOP=/deps/Build_WRF/WPS
 RUN mkdir -p $TARGET_DIR
+RUN mkdir -p /glade/u/home/wrfhelp/UNGRIB_LIBRARIES/
+RUN ln -s $TARGET_DIR/lib /glade/u/home/wrfhelp/UNGRIB_LIBRARIES/
+WORKDIR /deps
+ADD compile-deps.sh compile-deps.sh
