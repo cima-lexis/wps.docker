@@ -22,9 +22,17 @@ fi
 # stop on first error
 set -e
 
-# preparing namelist files from templates.
-export start=$1
-export end=$2
+# read arguments from command line
+# or from environment.
+if [ "$#" -eq 2 ]; then
+  export start = $1
+  export end = $2
+else
+  export start = $WPS_START_DATE
+  export end = $WPS_END_DATE
+fi
+
+# prepares namelist files from templates.
 cat namelist.input.tmpl | ./namelist-prepare $start $end > namelist.input
 cat namelist.wps.tmpl | ./namelist-prepare $start $end > namelist.wps
 
