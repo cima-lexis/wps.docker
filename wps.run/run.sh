@@ -40,4 +40,4 @@ mpiexec -n $cores ./metgrid.exe
 mpiexec -n $cores ./real.exe
 
 # publish output files
-cp wrfbdy_* wrfinput_* /output
+cp wrfbdy_* wrfinput_* namelist.input /output
