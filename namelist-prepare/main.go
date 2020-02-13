@@ -20,9 +20,10 @@ type DateArg struct {
 type TmplArgs struct {
 	Start DateArg
 	End   DateArg
+	Hours int
 }
 
-func parseArgs() (start, end time.Time) {
+func parseArgs() (start, end time.Time, hours int) {
 	startdateS := os.Args[1]
 	enddateS := os.Args[2]
 
@@ -38,17 +39,19 @@ func parseArgs() (start, end time.Time) {
 		os.Exit(1)
 	}
 
-	return startdate, enddate
+	lenghtHours := enddate.Sub(startdate) / time.Hour
+
+	return startdate, enddate, int(lenghtHours)
 }
 
-func renderTemplate(start, end time.Time, input string) {
+func renderTemplate(start, end time.Time, hours int, input string) {
 	tmpl, err := template.New("namelist").Parse(input)
 	if err != nil {
 		fmt.Printf("Error while parsing template: %s", err.Error())
 		os.Exit(1)
 	}
 
-	args := createTemplateArgs(start, end)
+	args := createTemplateArgs(start, end, hours)
 
 	err = tmpl.Execute(os.Stdout, args)
 	if err != nil {
@@ -72,7 +75,7 @@ func readStdin() string {
 	return strings.Join(lines, "\n")
 }
 
-func createTemplateArgs(start, end time.Time) TmplArgs {
+func createTemplateArgs(start, end time.Time, hours int) TmplArgs {
 	var args TmplArgs
 
 	args.Start.Day = start.Day()
@@ -87,6 +90,7 @@ func createTemplateArgs(start, end time.Time) TmplArgs {
 	args.End.Hour = end.Hour()
 	args.End.Iso = end.Format("2006-01-02_15:00:00")
 
+	args.Hours = hours
 	return args
 }
 
@@ -97,7 +101,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	startdate, enddate := parseArgs()
+	startdate, enddate, hours := parseArgs()
 	input := readStdin()
-	renderTemplate(startdate, enddate, input)
+	renderTemplate(startdate, enddate, hours, input)
 }
