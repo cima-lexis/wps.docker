@@ -25,12 +25,15 @@ set -e
 # read arguments from command line
 # or from environment.
 if [ "$#" -eq 2 ]; then
-  export start = $1
-  export end = $2
+  start = $1
+  end = $2
 else
-  export start = $WPS_START_DATE
-  export end = $WPS_END_DATE
+  start = $WPS_START_DATE
+  end = $WPS_END_DATE
 fi
+
+export start
+export end
 
 # prepares namelist files from templates.
 cat namelist.input.tmpl | ./namelist-prepare $start $end > namelist.input
