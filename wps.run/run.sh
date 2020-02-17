@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # check input and environment validity
 
@@ -23,17 +23,10 @@ fi
 set -e
 
 # read arguments from command line
-# or from environment.
-if [ "$#" -eq 2 ]; then
-  start = $1
-  end = $2
-else
-  start = $WPS_START_DATE
-  end = $WPS_END_DATE
-fi
+export start=$1
+export end=$2
 
-export start
-export end
+echo $start $end
 
 # prepares namelist files from templates.
 cat namelist.input.tmpl | ./namelist-prepare $start $end > namelist.input
