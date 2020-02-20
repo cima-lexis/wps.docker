@@ -43,6 +43,7 @@ RUN tar --strip-components=1 -xvf v4.1.3.tar.gz
 WORKDIR /deps/Build_WRF/WPS
 RUN wget -q https://github.com/wrf-model/WPS/archive/v4.1.tar.gz
 RUN tar --strip-components=1 -xvf v4.1.tar.gz
+RUN sed -i 's/smooth_option = smth-desmth_special; smooth_passes=1/smooth_option = smth-desmth_special; smooth_passes=36/g' /deps/WPS-4.1/geogrid/GEOGRID.TBL.ARW
 
 # prepare env
 ENV DIR=/deps/Build_WRF/LIBRARIES

@@ -56,6 +56,8 @@ cp -r . /output/WRF
 # compile WPS
 cd /deps/Build_WRF/WPS
 ./clean
+
+
 echo 3 | ./configure
 ./compile
 cp -r . /output/WPS-4.1
