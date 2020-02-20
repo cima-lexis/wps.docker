@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # read arguments from command line
 # or from environment.
