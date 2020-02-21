@@ -6,7 +6,6 @@ RUN apt install -y tcsh perl file libgfortran3 libpng16-16 less vim
 
 RUN mkdir -p /wrfbase/wpswd/geogrid
 ADD ./deps /deps
-ADD ./GEOGRID.TBL.ARW /deps/WPS-4.1/geogrid/GEOGRID.TBL.ARW
 
 WORKDIR /wrfbase/wpswd
 

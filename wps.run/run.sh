@@ -25,11 +25,11 @@ set -e
 # read arguments from command line
 # or from environment.
 if [ "$#" -eq 2 ]; then
-  export start = $1
-  export end = $2
+  export start=$1
+  export end=$2
 else
-  export start = $WPS_START_DATE
-  export end = $WPS_END_DATE
+  export start=$WPS_START_DATE
+  export end=$WPS_END_DATE
 fi
 
 # prepares namelist files from templates.
