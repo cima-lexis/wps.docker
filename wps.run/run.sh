@@ -40,7 +40,7 @@ cat namelist.wps.tmpl | ./namelist-prepare $start $end > namelist.wps
 export cores=`nproc`
 
 # execute WPS
-mpiexec -n $cores ./geogrid.exe
+mpiexec -n 36 ./geogrid.exe
 ./link_grib.csh /input/*
 ./ungrib.exe
 ./avg_tsfc.exe
