@@ -43,7 +43,7 @@ export cores=`nproc`
 mpiexec -n 36 ./geogrid.exe
 ./link_grib.csh /input/*
 ./ungrib.exe
-if ./needs-constants; do
+if ./needs-constants $start $end; then
   ./avg_tsfc.exe
 fi
 mpiexec -n $cores ./metgrid.exe
