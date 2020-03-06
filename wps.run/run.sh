@@ -39,11 +39,19 @@ cat namelist.wps.tmpl | ./namelist-prepare $start $end > namelist.wps
 # number of processor cores availables
 export cores=`nproc`
 
+if [ $cores -gt 36 ]; then
+  export geo_cores=36
+else
+  export geo_cores=$cores
+fi
+
 # execute WPS
-mpiexec -n 36 ./geogrid.exe
+mpiexec -n $geo_cores ./geogrid.exe
 ./link_grib.csh /input/*
 ./ungrib.exe
-./avg_tsfc.exe
+if ./needs-constants $start $end; then
+  ./avg_tsfc.exe
+fi
 mpiexec -n $cores ./metgrid.exe
 mpiexec -n $cores ./real.exe
 

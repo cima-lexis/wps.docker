@@ -18,9 +18,10 @@ type DateArg struct {
 }
 
 type TmplArgs struct {
-	Start DateArg
-	End   DateArg
-	Hours int
+	MetGridConstants string
+	Start            DateArg
+	End              DateArg
+	Hours            int
 }
 
 func parseArgs() (start, end time.Time, hours int) {
@@ -39,9 +40,33 @@ func parseArgs() (start, end time.Time, hours int) {
 		os.Exit(1)
 	}
 
-	lenghtHours := enddate.Sub(startdate) / time.Hour
+	lenghtHours := int(enddate.Sub(startdate) / time.Hour)
 
-	return startdate, enddate, int(lenghtHours)
+	return startdate, enddate, lenghtHours
+}
+
+func createTemplateArgs(start, end time.Time, hours int) TmplArgs {
+	var args TmplArgs
+
+	if hours > 24 {
+		args.MetGridConstants = "constants_name                = 'TAVGSFC',"
+	} else {
+		args.MetGridConstants = ""
+	}
+	args.Start.Day = start.Day()
+	args.Start.Month = int(start.Month())
+	args.Start.Year = start.Year()
+	args.Start.Hour = start.Hour()
+	args.Start.Iso = start.Format("2006-01-02_15:00:00")
+
+	args.End.Day = end.Day()
+	args.End.Month = int(end.Month())
+	args.End.Year = end.Year()
+	args.End.Hour = end.Hour()
+	args.End.Iso = end.Format("2006-01-02_15:00:00")
+
+	args.Hours = hours
+	return args
 }
 
 func renderTemplate(start, end time.Time, hours int, input string) {
@@ -73,25 +98,6 @@ func readStdin() string {
 	}
 
 	return strings.Join(lines, "\n")
-}
-
-func createTemplateArgs(start, end time.Time, hours int) TmplArgs {
-	var args TmplArgs
-
-	args.Start.Day = start.Day()
-	args.Start.Month = int(start.Month())
-	args.Start.Year = start.Year()
-	args.Start.Hour = start.Hour()
-	args.Start.Iso = start.Format("2006-01-02_15:00:00")
-
-	args.End.Day = end.Day()
-	args.End.Month = int(end.Month())
-	args.End.Year = end.Year()
-	args.End.Hour = end.Hour()
-	args.End.Iso = end.Format("2006-01-02_15:00:00")
-
-	args.Hours = hours
-	return args
 }
 
 func main() {
