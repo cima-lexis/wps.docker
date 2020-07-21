@@ -102,7 +102,7 @@ func readStdin() string {
 
 func main() {
 	if len(os.Args) < 3 {
-		fmt.Printf("Usage: cat templatefile.tmpl > namelist-prepare startdate enddate > file.out\n")
+		fmt.Printf("Usage: cat templatefile.tmpl | namelist-prepare startdate enddate > file.out\n")
 		fmt.Printf("\twhere startdate and enddate are in format YYYYMMDDHH\n\n")
 		os.Exit(1)
 	}
