@@ -89,3 +89,4 @@ ifs/*
 deps
 output
 namelist-prepare/namelist-prepare
+*intel*
