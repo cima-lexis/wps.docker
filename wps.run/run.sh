@@ -168,6 +168,6 @@ if [[ $WPS_MODE == 'WARMUPDA']]; then
   exit 0
 fi
 
-echo Error: unknown mode '$WPS_MODE'
+echo Error: unknown mode $WPS_MODE
 echo WPS_MODE accepts these values: 'WARMUP' 'WRF' 'WARMUPDA' 'WRFDA'
 exit 1
