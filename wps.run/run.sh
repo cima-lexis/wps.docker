@@ -80,6 +80,7 @@ function run_wps() {
   start=$1
   end=$2
 
+
   # prepares namelist files from templates.
   cat namelist.input.tmpl | ./namelist-prepare $start $end > namelist.input
   cat namelist.wps.tmpl | ./namelist-prepare $start $end > namelist.wps
@@ -118,37 +119,42 @@ function dateadd() {
 
 
 
-if [[ $WPS_MODE == 'WARMUP']]; then
+if [[ $WPS_MODE == 'WARMUP' ]]; then
+  echo "PREPROCESS DATA FOR A WRF SIMULATION WITH WARMUP DATA"
+
   # include warmup data
   warmup1_start=`dateadd ${wps_start} "-2 day"`
   warmup2_start=`dateadd ${wps_start} "-1 day"`
   wrfrun_start=${wps_start}
 
   warmup1_end=$warmup2_start
-  warmup2_end=$wrf_run_start
-  wrf_run_end=$wps_end
+  warmup2_end=$wrfrun_start
+  wrfrun_end=$wps_end
 
   run_wps $warmup1_start $warmup1_end
   run_wps $warmup2_start $warmup2_end
-  run_wps $wrfrun_start $wrf_run_end
+  run_wps $wrfrun_start $wrfrun_end
   exit 0
 fi
 
 if [[ $WPS_MODE == 'WRF' ]]; then
+  echo "PREPROCESS DATA FOR A WRF SIMULATION"
   run_wps $wps_start $wps_end
   exit 0
 fi
 
 if [[ $WPS_MODE == 'WRFDA' ]]; then
+  echo "PREPROCESS DATA FOR A WRFDA SIMULATION"
   # include ($wps_start -3 hours) and
   # ($wps_start -6 hours) that are needed
   # for assimilation.
-  wps_start=`dateadd ${wps_start} -6 hours"`
+  wps_start=`dateadd ${wps_start} "-6 hours"`
   run_wps $wps_start $wps_end
   exit 0
 fi
 
-if [[ $WPS_MODE == 'WARMUPDA']]; then
+if [[ $WPS_MODE == 'WARMUPDA' ]]; then
+  echo "PREPROCESS DATA FOR A WRFDA SIMULATION WITH WARMUP DATA"
   # include warmup data
   warmup1_start=`dateadd ${wps_start} "-2 day"`
   warmup2_start=`dateadd ${wps_start} "-1 day"`
@@ -156,15 +162,15 @@ if [[ $WPS_MODE == 'WARMUPDA']]; then
   # include ($wps_start -3 hours) and
   # ($wps_start -6 hours) that are needed
   # for assimilation.
-  wrfrun_start=`dateadd ${wps_start} -6 hours"`
+  wrfrun_start=`dateadd ${wps_start} "-6 hours"`
 
   warmup1_end=$warmup2_start
-  warmup2_end=$wrf_run_start
-  wrf_run_end=$wps_end
+  warmup2_end=$wrfrun_start
+  wrfrun_end=$wps_end
 
   run_wps $warmup1_start $warmup1_end
   run_wps $warmup2_start $warmup2_end
-  run_wps $wrfrun_start $wrf_run_end
+  run_wps $wrfrun_start $wrfrun_end
   exit 0
 fi
 
