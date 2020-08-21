@@ -22,13 +22,13 @@
 #               Two of this WPS execution preprocess the data to run two WRF simulation for days WPS_START_DATE-1 and WPS_START_DATE-2.
 #               These two set of data are the "warmup" data.
 #               The other WPS execution prepares the normal WRF simulation from $WPS_START_DATE to $WPS_END_DATE
-#               Warmup data it's actually used by Continuum and numtech simulation.
+#               Warmup data it's actually used by Risico simulation.
 #   * WARMUPDA mode - preprocess the data needed to run three WRF simulation, with data assimilation.
 #               Two of this WPS execution preprocess the data to run two WRF simulation (with no assimilation) for days WPS_START_DATE-1
 #               and WPS_START_DATE-2.
 #               These two set of data are the "warmup" data.
 #               The other WPS execution prepares the normal WRF simulation (with assimilation) from $WPS_START_DATE to $WPS_END_DATE
-#               Warmup data it's actually used by Continuum and numtech simulation.
+#               Warmup data it's actually used by Risico simulation.
 
 # read arguments from command line
 # or from environment.
