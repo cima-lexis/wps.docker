@@ -19,7 +19,7 @@ RUN ln -s /deps/WRF/main/real.exe .
 
 ENV PATH=$PATH:/deps/libs/bin/
 ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/deps/libs/lib
-CMD ["sh","run.sh"]
+CMD ["bash","run.sh"]
 
 ADD namelist-prepare namelist-prepare
 ADD needs-constants needs-constants
